@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TradeLingo - Learn & Trade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation & Stats -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="logo-icon">📈</span>
+      <span class="logo-text">TradeLingo</span>
+    </div>
+    <div class="user-stats">
+      <div class="stat-badge" id="streak-badge">🔥 <span id="streak-count">3</span></div>
+      <div class="stat-badge" id="hearts-badge">❤️ <span id="hearts-count">5</span></div>
+      <div class="stat-badge" id="xp-badge">⚡ <span id="xp-count">120</span> XP</div>
+    </div>
+  </header>
+
+  <!-- News Ticker -->
+  <div class="news-ticker">
+    <span class="ticker-tag">LIVE MARKET</span>
+    <marquee id="ticker-text">BITCOIN rompe i $65.000 • FED annuncia decisioni sui tassi • Mercati azionari in forte rialzo...</marquee>
+  </div>
+
+  <!-- Main View Container -->
+  <main class="main-content">
+
+    <!-- VIEW 1: ACADEMY (Duolingo Style) -->
+    <section id="view-academy" class="app-view active">
+      <div class="academy-header">
+        <h2>Percorso Formativo</h2>
+        <p>Completa le lezioni, impara l'analisi e accumula XP!</p>
+      </div>
+
+      <div class="learning-path">
+        <div class="node-wrapper level-unlocked" onclick="openLesson(1)">
+          <div class="path-node">1</div>
+          <span class="node-title">Le Basi del Grafico</span>
+        </div>
+        <div class="path-line"></div>
+        <div class="node-wrapper level-unlocked" onclick="openLesson(2)">
+          <div class="path-node">2</div>
+          <span class="node-title">Supporti e Resistenze</span>
+        </div>
+        <div class="path-line"></div>
+        <div class="node-wrapper level-locked" onclick="alert('Completa prima i livelli precedenti!')">
+          <div class="path-node">🔒</div>
+          <span class="node-title">Trendline & Breakout</span>
+        </div>
+        <div class="path-line"></div>
+        <div class="node-wrapper level-locked" onclick="alert('Completa prima i livelli precedenti!')">
+          <div class="path-node">🔒</div>
+          <span class="node-title">RSI & Indicatori</span>
+        </div>
+      </div>
+
+      <!-- Modal Lezione / Quiz -->
+      <div id="lesson-modal" class="modal hidden">
+        <div class="modal-content">
+          <button class="close-btn" onclick="closeLesson()">&times;</button>
+          <div id="lesson-body">
+            <!-- Dinamico JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: SANDBOX LIVE (Trading Platform) -->
+    <section id="view-sandbox" class="app-view">
+      <div class="sandbox-header">
+        <div class="symbol-info">
+          <span class="symbol-name">BTC/USD</span>
+          <span class="symbol-price" id="live-price">$64,500.00</span>
+        </div>
+        <div class="balance-info">
+          <span>Capitale:</span>
+          <strong id="user-balance">$10,000.00</strong>
+        </div>
+      </div>
+
+      <!-- Canvas Grafico Candele -->
+      <div class="chart-container">
+        <canvas id="tradingChart"></canvas>
+      </div>
+
+      <!-- Eventi di Mercato Iniettabili (Influencer Panel) -->
+      <div class="event-panel">
+        <span class="panel-title">⚡ Inietta Evento di Mercato:</span>
+        <div class="event-buttons">
+          <button class="event-btn pump" onclick="triggerMarketEvent('PUMP')">🚀 Fake Tweet (+10%)</button>
+          <button class="event-btn dump" onclick="triggerMarketEvent('DUMP')">🐋 Whale Dump (-10%)</button>
+          <button class="event-btn shock" onclick="triggerMarketEvent('VOLATILE')">⚡ Alta Volatilità</button>
+        </div>
+      </div>
+
+      <!-- Pannello Ordini Touch -->
+      <div class="trading-controls">
+        <div class="position-info" id="position-info">Nessuna posizione aperta</div>
+        <div class="action-buttons">
+          <button class="trade-btn buy" onclick="executeTrade('BUY')">COMPRA (LONG)</button>
+          <button class="trade-btn sell" onclick="executeTrade('SELL')">VENDI (SHORT)</button>
+        </div>
+        <button class="close-pos-btn hidden" id="close-pos-btn" onclick="closePosition()">CHIUDI POSIZIONE</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: PROFILO / STATS -->
+    <section id="view-profile" class="app-view">
+      <div class="profile-card">
+        <div class="avatar">📊</div>
+        <h2 id="profile-rank">Trader Novizio</h2>
+        <p>Membro di TradeLingo Academy</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value" id="stat-trades">0</span>
+          <span class="stat-label">Trade Eseguiti</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-winrate">0%</span>
+          <span class="stat-label">Win Rate</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-pnl">$0.00</span>
+          <span class="stat-label">Profit/Loss Totale</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('academy')">
+      <span class="nav-icon">🎓</span>
+      <span class="nav-label">Academy</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('sandbox')">
+      <span class="nav-icon">📈</span>
+      <span class="nav-label">Sandbox</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profilo</span>
+    </button>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
