@@ -1,0 +1,367 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #0d1117;
+  color: #f0f6fc;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header & Ticker */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #00f3ff;
+}
+
+.user-stats {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.stat-badge {
+  background: #21262d;
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid #30363d;
+}
+
+.news-ticker {
+  background: #010409;
+  color: #8b949e;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid #21262d;
+}
+
+.ticker-tag {
+  background: #00f3ff;
+  color: #000;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+/* Views Container */
+.main-content {
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+}
+
+.app-view {
+  display: none;
+  padding: 16px;
+  height: 100%;
+}
+
+.app-view.active {
+  display: block;
+}
+
+/* Academy View */
+.academy-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.academy-header p {
+  color: #8b949e;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.learning-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding-bottom: 40px;
+}
+
+.node-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.path-node {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.1s;
+}
+
+.node-wrapper:active .path-node {
+  transform: scale(0.95);
+}
+
+.level-unlocked .path-node {
+  background: linear-gradient(135deg, #00f3ff, #0088ff);
+  color: #000;
+}
+
+.level-locked .path-node {
+  background: #21262d;
+  color: #484f58;
+  border: 2px solid #30363d;
+}
+
+.node-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 6px;
+  color: #c9d1d9;
+}
+
+.path-line {
+  width: 4px;
+  height: 32px;
+  background: #30363d;
+}
+
+/* Modal Lezioni */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  background: none; border: none;
+  color: #8b949e; font-size: 1.5rem;
+}
+
+/* Sandbox View */
+#view-sandbox {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sandbox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #161b22;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.symbol-name { font-weight: bold; display: block; }
+.symbol-price { font-size: 1.1rem; font-weight: bold; color: #00ff88; }
+.balance-info { text-align: right; font-size: 0.85rem; color: #8b949e; }
+.balance-info strong { color: #fff; display: block; font-size: 0.95rem; }
+
+.chart-container {
+  width: 100%;
+  height: 280px;
+  background: #010409;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  position: relative;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Event Panel */
+.event-panel {
+  margin: 10px 0;
+  background: #161b22;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.panel-title {
+  font-size: 0.75rem;
+  color: #8b949e;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.event-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.event-btn {
+  flex: 1;
+  padding: 8px 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+}
+
+.event-btn.pump { border-color: #00ff88; color: #00ff88; }
+.event-btn.dump { border-color: #ff0055; color: #ff0055; }
+.event-btn.shock { border-color: #00f3ff; color: #00f3ff; }
+
+/* Trading Controls Touch */
+.trading-controls {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.position-info {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #8b949e;
+  padding: 4px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.trade-btn {
+  flex: 1;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.trade-btn.buy { background: #00c853; }
+.trade-btn.sell { background: #ff1744; }
+
+.close-pos-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff9100;
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-weight: bold;
+}
+
+.hidden { display: none !important; }
+
+/* Profile View */
+.profile-card {
+  text-align: center;
+  padding: 20px;
+  background: #161b22;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar { font-size: 3rem; margin-bottom: 8px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  background: #161b22;
+  padding: 12px 8px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #30363d;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #00f3ff;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: #8b949e;
+}
+
+/* Navigation Bar */
+.bottom-nav {
+  display: flex;
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  height: 60px;
+}
+
+.nav-item {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  gap: 2px;
+}
+
+.nav-item.active {
+  color: #00f3ff;
+}
+
+.nav-icon { font-size: 1.2rem; }
+.nav-label { font-size: 0.7rem; font-weight: 600; }
